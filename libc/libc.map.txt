@@ -1480,6 +1480,14 @@ LIBC_Q { # introduced=Q
     android_mallopt; # apex
 } LIBC_P;
 
+LIBC_R {
+  global:
+    pthread_cond_clockwait;
+    pthread_mutex_clocklock;
+    pthread_rwlock_clockrdlock;
+    pthread_rwlock_clockwrlock;
+} LIBC_Q;
+
 LIBC_PRIVATE {
   global:
     ___Unwind_Backtrace; # arm
