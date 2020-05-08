@@ -267,6 +267,10 @@ uint64_t android_fdsan_get_tag_value(uint64_t tag) {
 }
 
 int android_fdsan_close_with_tag(int fd, uint64_t expected_tag) {
+  if (__get_thread()->is_vforked()) {
+    return ___close(fd);
+  }
+
   FdEntry* fde = GetFdEntry(fd);
   if (!fde) {
     return ___close(fd);
@@ -316,6 +320,10 @@ uint64_t android_fdsan_get_owner_tag(int fd) {
 }
 
 void android_fdsan_exchange_owner_tag(int fd, uint64_t expected_tag, uint64_t new_tag) {
+  if (__get_thread()->is_vforked()) {
+    return;
+  }
+
   FdEntry* fde = GetFdEntry(fd);
   if (!fde) {
     return;
@@ -352,6 +360,10 @@ android_fdsan_error_level android_fdsan_get_error_level() {
 }
 
 android_fdsan_error_level android_fdsan_set_error_level(android_fdsan_error_level new_level) {
+  if (__get_thread()->is_vforked()) {
+    return android_fdsan_get_error_level();
+  }
+
   return atomic_exchange(&GetFdTable().error_level, new_level);
 }
 
