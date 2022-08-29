@@ -40,7 +40,7 @@
 #include <vector>
 
 #include <platform/bionic/macros.h>
-#include <unwindstack/LocalUnwinder.h>
+#include <unwindstack/Unwinder.h>
 
 #include "OptionData.h"
 #include "UnwindBacktrace.h"
@@ -110,7 +110,7 @@ struct ListInfoType {
   size_t size;
   bool zygote_child_alloc;
   FrameInfoType* frame_info;
-  std::vector<unwindstack::LocalFrameData>* backtrace_info;
+  std::vector<unwindstack::FrameData>* backtrace_info;
 };
 
 class PointerData : public OptionData {
@@ -186,7 +186,7 @@ class PointerData : public OptionData {
   static std::mutex frame_mutex_;
   static std::unordered_map<FrameKeyType, size_t> key_to_index_;
   static std::unordered_map<size_t, FrameInfoType> frames_;
-  static std::unordered_map<size_t, std::vector<unwindstack::LocalFrameData>> backtraces_info_;
+  static std::unordered_map<size_t, std::vector<unwindstack::FrameData>> backtraces_info_;
   static size_t cur_hash_index_;
 
   static std::mutex free_pointer_mutex_;
